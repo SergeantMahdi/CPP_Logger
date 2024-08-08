@@ -8,6 +8,7 @@
 *.exe
 *.out
 *.app
+main.cpp
 bin/
 build/
 dist/
