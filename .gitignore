@@ -1,0 +1,59 @@
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.app
+bin/
+build/
+dist/
+x64/
+
+# IDE/Editor specific
+.idea/
+*.iml
+cmake-build-*/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.vcxproj.*
+*.layout
+*.depend
+*.layout.*
+*.xcworkspace
+*.xcuserstate
+
+# OS-specific
+Thumbs.db
+desktop.ini
+.DS_Store
+.AppleDouble
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+Testing/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+_compile_commands.json
+_compile_commands.json.tmp
+/CTestTestfile.cmake
+
+# IDE-generated
+.vs/
+
+# Miscellaneous
+*.bak
+*.tmp
+*.temp
+*.log
+*.gcov
+*.gcda
+*.gcno
