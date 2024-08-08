@@ -13,21 +13,13 @@ enum class LogLevel {
 class Logger {
 private:
 
-	 void setColor(const int&);
-
-	 void resetColor();
-
+	std::string logLevelToString(const LogLevel& level) const;
+	std::string formatTime() const;
 public:
-	
-	static Logger& initLogger();
 
 	Logger& operator=(const Logger& other) = delete;
-
+	static Logger& initLogger();
 	void Log(const LogLevel& level, const std::string& message) ;
-
-	std::string logLevelToString(const LogLevel& level) const;
-
-	std::string formatTime() const;
 
 	Logger();
 	~Logger();
