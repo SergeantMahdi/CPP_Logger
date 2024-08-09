@@ -8,6 +8,8 @@
 
 Logger* Logger::m_instance = nullptr;
 std::mutex Logger::m_mutex;
+
+//Make an object instance
 Logger* Logger::initLogger()
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
@@ -17,6 +19,7 @@ Logger* Logger::initLogger()
 	return m_instance;
 }
 
+//Log with file name
 void Logger::Log(const LogLevel& level, const std::string& message, const std::string& fileName = "Log")
 {
 	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
@@ -25,6 +28,7 @@ void Logger::Log(const LogLevel& level, const std::string& message, const std::s
 	}
 }
 
+//log with default file name
 void Logger::Log(const LogLevel& level, const std::string& message)
 {
 	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
@@ -33,6 +37,7 @@ void Logger::Log(const LogLevel& level, const std::string& message)
 	}
 }
 
+//Colorful log for console
 std::string Logger::logLevelToString(const LogLevel& level) const
 {
 	switch (level) {
@@ -46,6 +51,7 @@ std::string Logger::logLevelToString(const LogLevel& level) const
 	}
 }
 
+//logLevel for logging into file
 std::string Logger::logLevelToStringForFile(const LogLevel& level) const
 {
 	switch (level) {
@@ -59,6 +65,7 @@ std::string Logger::logLevelToStringForFile(const LogLevel& level) const
 	}
 }
 
+//get the current time
 std::string Logger::formatTime() const
 {
 	std::ostringstream oss;
@@ -70,6 +77,7 @@ std::string Logger::formatTime() const
 	return oss.str();
 }
 
+//Write in the file
 void Logger::fileLog(const std::string& fileName, const std::string& message) const
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
@@ -91,6 +99,7 @@ void Logger::fileLog(const std::string& fileName, const std::string& message) co
 	outputFile.close();
 }
 
+//set the satus of logging into a file
 void Logger::loggingStatus(const bool& status)
 {
 	m_enableLoggingFile = status;
