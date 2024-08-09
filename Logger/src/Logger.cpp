@@ -1,3 +1,4 @@
+
 #include "Logger.h"
 #include <sstream>
 #include <chrono>
@@ -13,36 +14,19 @@ Logger& Logger::initLogger()
 
 void Logger::Log(const LogLevel& level, const std::string& message)
 {
-#if level == LogLevel::DEBUG
-	std::cout << Logger::logLevelToString(level) << message << std::setw(30) << formatTime() << std::endl;
-
-#elif level == LogLevel::INFO
-	std::cout << Logger::logLevelToString(level) << message << std::setw(10) << formatTime() << std::endl;
-
-
-#elif level == LogLevel::WARNING
-	std::cout << Logger::logLevelToString(level) << message << std::setw(10) << formatTime() << std::endl;
-
-
-#elif level == LogLevel::ERROR
-	std::cout << Logger::logLevelToString(level) << message << std::setw(10) << formatTime() << std::endl;
-
-
-#elif level == LogLevel::FATAL
-	std::cout << Logger::logLevelToString(level) << message << std::setw(10) << formatTime() << std::endl;
-
-#endif
+	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
 }
 
 std::string Logger::logLevelToString(const LogLevel& level) const
 {
 	switch (level) {
-	case LogLevel::DEBUG: return "[DEBUG]: ";
-	case LogLevel::INFO: return "[INFO]: ";
-	case LogLevel::WARNING: return "[WARNING]: ";
-	case LogLevel::ERROR: return "[ERROR]: ";
-	case LogLevel::FATAL: return "[FATAL]: ";
-	default: return "[DEBUG]: ";
+	case LogLevel::DEBUG: return "\033[36m[DEBUG]: ";
+	case LogLevel::INFO: return "\033[32m[INFO]: ";
+	case LogLevel::WARNING: return "\033[33m[WARNING]: ";
+	case LogLevel::ERROR: return "\033[31m[ERROR]: ";
+	case LogLevel::CRITICAL: return "\033[43;30m[CRITICAL]: ";
+	case LogLevel::FATAL: return "\033[41m[FATAL]: ";
+	default: return "\033[32m[DEBUG]: ";
 	}
 }
 
