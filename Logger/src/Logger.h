@@ -12,9 +12,12 @@ enum class LogLevel {
 };
 
 class Logger {
+
 private:
+
+	static Logger* m_instance;
 	bool m_enableLoggingFile;
-	mutable std::mutex m_mutex;
+	static std::mutex m_mutex;
 
 private:
 
@@ -22,14 +25,18 @@ private:
 	std::string logLevelToStringForFile(const LogLevel& level) const;
 	std::string formatTime() const;
 	void fileLog(const std::string&, const std::string& message) const;
-	 Logger();
+
+protected:
+
+	Logger();
 	~Logger();
+
+public:
+
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger& other) = delete;
-public:
-	static Logger& initLogger();
+	static Logger* initLogger();
 	void loggingStatus(const bool&);
-
 	void Log(const LogLevel& , const std::string& , const std::string&);
 	void Log(const LogLevel&, const std::string&);
 

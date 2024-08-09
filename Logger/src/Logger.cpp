@@ -6,11 +6,15 @@
 #include <string>
 #include <fstream>
 
-
-Logger& Logger::initLogger()
+Logger* Logger::m_instance = nullptr;
+std::mutex Logger::m_mutex;
+Logger* Logger::initLogger()
 {
-	static Logger Log;
-	return Log;
+	std::lock_guard<std::mutex> lock(m_mutex);
+	if (m_instance == nullptr) {
+		m_instance = new Logger;
+	}
+	return m_instance;
 }
 
 void Logger::Log(const LogLevel& level, const std::string& message, const std::string& fileName = "Log")
@@ -84,7 +88,7 @@ void Logger::fileLog(const std::string& fileName, const std::string& message) co
 		else
 			return;
 	}
-	
+	outputFile.close();
 }
 
 void Logger::loggingStatus(const bool& status)
@@ -99,4 +103,6 @@ Logger::Logger()
 
 Logger::~Logger()
 {
+	m_enableLoggingFile = false;
+	delete m_instance;
 }
