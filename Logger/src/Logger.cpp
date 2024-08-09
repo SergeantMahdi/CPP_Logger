@@ -4,6 +4,7 @@
 #include <chrono>
 #include <iomanip>
 #include <string>
+#include <fstream>
 
 
 Logger& Logger::initLogger()
@@ -12,9 +13,20 @@ Logger& Logger::initLogger()
 	return Log;
 }
 
+void Logger::Log(const LogLevel& level, const std::string& message, const std::string& fileName = "Log")
+{
+	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
+		if (m_enableLoggingFile) {
+		fileLog(fileName, Logger::logLevelToStringForFile(level) + message + "  | " + formatTime());
+	}
+}
+
 void Logger::Log(const LogLevel& level, const std::string& message)
 {
 	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
+	if (m_enableLoggingFile) {
+		fileLog("Log", Logger::logLevelToStringForFile(level) + message + "  | " + formatTime());
+	}
 }
 
 std::string Logger::logLevelToString(const LogLevel& level) const
@@ -30,6 +42,19 @@ std::string Logger::logLevelToString(const LogLevel& level) const
 	}
 }
 
+std::string Logger::logLevelToStringForFile(const LogLevel& level) const
+{
+	switch (level) {
+	case LogLevel::DEBUG: return "[DEBUG]: ";
+	case LogLevel::INFO: return "[INFO]: ";
+	case LogLevel::WARNING: return "[WARNING]: ";
+	case LogLevel::ERROR: return "[ERROR]: ";
+	case LogLevel::CRITICAL: return "[CRITICAL]: ";
+	case LogLevel::FATAL: return "[FATAL]: ";
+	default: return "[DEBUG]: ";
+	}
+}
+
 std::string Logger::formatTime() const
 {
 	std::ostringstream oss;
@@ -41,7 +66,34 @@ std::string Logger::formatTime() const
 	return oss.str();
 }
 
+void Logger::fileLog(const std::string& fileName, const std::string& message) const
+{
+	std::lock_guard<std::mutex> lock(m_mutex);
+	std::ofstream outputFile(fileName + ".log", std::ios::app);
+	if (m_enableLoggingFile) {
+		if (outputFile.is_open()) {
+			outputFile << message << std::endl;
+		}
+		else {
+			std::cout << "\033[43;30m" << fileName << ".log cannot be opened \033[0m" << std::endl;
+		}
+	}
+	else {
+		if (outputFile.is_open())
+			outputFile.close();
+		else
+			return;
+	}
+	
+}
+
+void Logger::loggingStatus(const bool& status)
+{
+	m_enableLoggingFile = status;
+}
+
 Logger::Logger()
+	:m_enableLoggingFile(false)
 {
 }
 
