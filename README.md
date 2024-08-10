@@ -1,7 +1,7 @@
 <h1 align="center"> Logger Library </h1>
 
 This is a simple logger that I made to simplify and also store the debugging information that might be critical in the future.
-You can use this library whether for only console logging or save those logging into costume file
+You can use this library whether for only console logging or save those logging into custom file
 
 
 > [!CAUTION]
