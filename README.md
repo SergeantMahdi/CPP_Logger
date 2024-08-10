@@ -80,3 +80,15 @@ enum class LogLevel {
 	FATAL
 };
 ```
+
+<h2 align="center">Screenshots</h2>
+
+ <h3> Loggin into the console </h3>
+ 
+![loggingFile](Media/Console-Logging.png)
+
+ <h3> Loggin into a file </h3>
+ 
+![loggingFile](Media/Logging-file.png)
+
+
