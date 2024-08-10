@@ -20,21 +20,17 @@ Logger* Logger::initLogger()
 }
 
 //Log with file name
-void Logger::Log(const LogLevel& level, const std::string& message, const std::string& fileName = "Log")
-{
-	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
-		if (m_enableLoggingFile) {
-		fileLog(fileName, Logger::logLevelToStringForFile(level) + message + "  | " + formatTime());
-	}
-}
-
-//log with default file name
 void Logger::Log(const LogLevel& level, const std::string& message)
 {
 	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
-	if (m_enableLoggingFile) {
-		fileLog("Log", Logger::logLevelToStringForFile(level) + message + "  | " + formatTime());
+		if (m_enableLoggingFile) {
+		fileLog(m_filename, Logger::logLevelToStringForFile(level) + message + "  | " + formatTime());
 	}
+}
+
+void Logger::setFilename(const std::string& name)
+{
+	m_filename = name;
 }
 
 //Colorful log for console
@@ -106,7 +102,7 @@ void Logger::loggingStatus(const bool& status)
 }
 
 Logger::Logger()
-	:m_enableLoggingFile(false)
+	:m_enableLoggingFile(false), m_filename("Log")
 {
 }
 

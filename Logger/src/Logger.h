@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <mutex>
 
@@ -18,6 +19,7 @@ private:
 	static Logger* m_instance;
 	bool m_enableLoggingFile;
 	static std::mutex m_mutex;
+	std::string m_filename;
 
 private:
 
@@ -37,8 +39,8 @@ public:
 	Logger& operator=(const Logger& other) = delete;
 	static Logger* initLogger();
 	void loggingStatus(const bool&);
-	void Log(const LogLevel& , const std::string& , const std::string&);
 	void Log(const LogLevel&, const std::string&);
+	void setFilename(const std::string&);
 
 };
 
