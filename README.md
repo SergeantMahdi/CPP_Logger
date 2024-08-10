@@ -44,7 +44,7 @@ int main() {
 
 	log->loggingStatus(true); //start logging into the file
 
-	log->Log(LogLevel::ERROR, "This is an error log");
+	log->Log(LogLevel::ERROR, "This is an error log"); //default filename is Log.log
 
 	log->loggingStatus(false); //Stop logging into the file
 }
@@ -59,9 +59,9 @@ int main() {
 
 	log->loggingStatus(true); //start logging into the file
 
-	std::string filename = "logging";
+	log->setFilename("Logging");
 
-	log->Log(LogLevel::ERROR, "This is an error log", filename); //start logging into logging.log
+	log->Log(LogLevel::ERROR, "This is an error log"); //start logging into Logging.log
 
 	log->loggingStatus(false); //Stop logging into the file
 }
