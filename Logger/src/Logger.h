@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <mutex>
+#include <sstream>
+#include <string>
 
 enum class LogLevel {
 	DEBUG,
@@ -40,7 +42,15 @@ public:
 	static Logger* initLogger();
 	void setLoggingStatus(const bool&);
 	void Log(const LogLevel&, const std::string&);
+	template<typename T> void Log(const LogLevel&, const T&);
 	void setLoggingFilename(const std::string&);
 
 };
 
+template<typename T>
+ void Logger::Log(const LogLevel& level, const T& message)
+{
+	std::stringstream streamStr;
+	streamStr << message;
+	Log(level, std::string(streamStr.str()));
+}
