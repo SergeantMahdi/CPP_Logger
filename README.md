@@ -42,11 +42,11 @@ int main() {
 //make an instance
 	Logger* log = Logger::initLogger();
 
-	log->loggingStatus(true); //start logging into the file
+	log->setLoggingStatus(true); //start logging into the file
 
 	log->Log(LogLevel::ERROR, "This is an error log"); //default filename is Log.log
 
-	log->loggingStatus(false); //Stop logging into the file
+	log->setLoggingStatus(false); //Stop logging into the file
 }
 ```
 <h3>To log in a file with a custom file name:</h3>
@@ -57,13 +57,13 @@ int main() {
 //make an instance
 	Logger* log = Logger::initLogger();
 
-	log->loggingStatus(true); //start logging into the file
+	log->setLoggingStatus(true); //start logging into the file
 
-	log->setFilename("Logging");
+	log->setLoggingFilename("Logging"); // add your custom name for log file
 
 	log->Log(LogLevel::ERROR, "This is an error log"); //start logging into Logging.log
 
-	log->loggingStatus(false); //Stop logging into the file
+	log->setLoggingStatus(false); //Stop logging into the file
 }
 ```
 

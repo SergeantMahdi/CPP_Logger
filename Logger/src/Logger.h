@@ -17,9 +17,9 @@ class Logger {
 private:
 
 	static Logger* m_instance;
-	bool m_enableLoggingFile;
+	bool m_isFileLoggingEnable;
 	static std::mutex m_mutex;
-	std::string m_filename;
+	std::string m_LoggingFilename;
 
 private:
 
@@ -38,9 +38,9 @@ public:
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger& other) = delete;
 	static Logger* initLogger();
-	void loggingStatus(const bool&);
+	void setLoggingStatus(const bool&);
 	void Log(const LogLevel&, const std::string&);
-	void setFilename(const std::string&);
+	void setLoggingFilename(const std::string&);
 
 };
 

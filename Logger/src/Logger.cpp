@@ -1,4 +1,7 @@
 
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
 #include "Logger.h"
 #include <sstream>
 #include <chrono>
@@ -23,14 +26,14 @@ Logger* Logger::initLogger()
 void Logger::Log(const LogLevel& level, const std::string& message)
 {
 	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
-		if (m_enableLoggingFile) {
-		fileLog(m_filename, Logger::logLevelToStringForFile(level) + message + "  | " + formatTime());
+		if (m_isFileLoggingEnable) {
+		fileLog(m_LoggingFilename, Logger::logLevelToStringForFile(level) + message + "  | " + formatTime());
 	}
 }
 
-void Logger::setFilename(const std::string& name)
+void Logger::setLoggingFilename(const std::string& name)
 {
-	m_filename = name;
+	m_LoggingFilename = name;
 }
 
 //Colorful log for console
@@ -78,7 +81,7 @@ void Logger::fileLog(const std::string& fileName, const std::string& message) co
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
 	std::ofstream outputFile(fileName + ".log", std::ios::app);
-	if (m_enableLoggingFile) {
+	if (m_isFileLoggingEnable) {
 		if (outputFile.is_open()) {
 			outputFile << message << std::endl;
 		}
@@ -92,22 +95,21 @@ void Logger::fileLog(const std::string& fileName, const std::string& message) co
 		else
 			return;
 	}
-	outputFile.close();
 }
 
 //set the satus of logging into a file
-void Logger::loggingStatus(const bool& status)
+void Logger::setLoggingStatus(const bool& status)
 {
-	m_enableLoggingFile = status;
+	m_isFileLoggingEnable = status;
 }
 
 Logger::Logger()
-	:m_enableLoggingFile(false), m_filename("Log")
+	:m_isFileLoggingEnable(false), m_LoggingFilename("Log")
 {
 }
 
-Logger::~Logger()
-{
-	m_enableLoggingFile = false;
+Logger::~Logger(){
+
+	m_isFileLoggingEnable = false;
 	delete m_instance;
 }
