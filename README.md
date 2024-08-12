@@ -6,10 +6,6 @@ You can use this library whether for only console logging or save those logging 
 > [!NOTE]
 > NEW UPDATE: Logger is capable of logging every type of data
 
-> [!CAUTION]
-> This library still doesn't contain thread safety and it might cause a problem in complex applications
-
-
 <h2>Guide</h2>
 
  <h3> make an instance: </h3>
