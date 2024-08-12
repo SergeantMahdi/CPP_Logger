@@ -6,6 +6,9 @@ You can use this library whether for only console logging or save those logging 
 > [!NOTE]
 > NEW UPDATE: Logger is capable of logging every type of data
 
+> [!NOTE]
+> NOTE: Thread Safety is added
+
 <h2>Guide</h2>
 
  <h3> make an instance: </h3>
