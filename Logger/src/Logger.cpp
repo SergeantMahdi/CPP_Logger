@@ -77,7 +77,6 @@ std::string Logger::formatTime() const
 void Logger::fileLog(const std::string& fileName) const
 {
 	std::lock_guard<std::mutex> lock(m_queueMutex);
-	std::cout << "Queue Size: " << m_queue.size() << std::endl;
 	if (!m_queue.empty()) {
 		std::ofstream outputFile(fileName + ".log", std::ios::app);
 		if (m_enbaleLoggin) {
