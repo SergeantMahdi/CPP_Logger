@@ -4,6 +4,8 @@
 #include <mutex>
 #include <sstream>
 #include <string>
+#include <queue>
+#include <thread>
 
 enum class LogLevel {
 	DEBUG,
@@ -19,8 +21,10 @@ class Logger {
 private:
 
 	static Logger* m_instance;
-	bool m_isFileLoggingEnable;
+	bool m_enbaleLoggin;
 	static std::mutex m_mutex;
+	static std::mutex m_queueMutex;
+	mutable std::queue<std::string> m_queue;
 	std::string m_LoggingFilename;
 
 private:
@@ -28,7 +32,7 @@ private:
 	std::string logLevelToString(const LogLevel& level) const;
 	std::string logLevelToStringForFile(const LogLevel& level) const;
 	std::string formatTime() const;
-	void fileLog(const std::string&, const std::string& message) const;
+	void fileLog(const std::string&) const;
 
 protected:
 
@@ -48,7 +52,7 @@ public:
 };
 
 template<typename T>
- void Logger::Log(const LogLevel& level, const T& message)
+inline void Logger::Log(const LogLevel& level, const T& message)
 {
 	std::stringstream streamStr;
 	streamStr << message;

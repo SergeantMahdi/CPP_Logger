@@ -3,13 +3,13 @@
 #include <iomanip>
 #include <fstream>
 
+
 Logger* Logger::m_instance = nullptr;
 std::mutex Logger::m_mutex;
-
+std::mutex Logger::m_queueMutex;
 //Make an object instance
 Logger* Logger::initLogger()
 {
-	std::lock_guard<std::mutex> lock(m_mutex);
 	if (m_instance == nullptr) {
 		m_instance = new Logger;
 	}
@@ -19,9 +19,12 @@ Logger* Logger::initLogger()
 //Log with file name
 void Logger::Log(const LogLevel& level, const std::string& message)
 {
+	std::lock_guard<std::mutex> lock(m_mutex);
 	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
-		if (m_isFileLoggingEnable) {
-		fileLog(m_LoggingFilename, Logger::logLevelToStringForFile(level) + message + "  | " + formatTime());
+		if (m_enbaleLoggin) {
+			std::string str = Logger::logLevelToStringForFile(level) + message + "  | " + formatTime();
+			m_queue.push(str);
+			fileLog(m_LoggingFilename);
 	}
 }
 
@@ -71,39 +74,46 @@ std::string Logger::formatTime() const
 }
 
 //Write in the file
-void Logger::fileLog(const std::string& fileName, const std::string& message) const
+void Logger::fileLog(const std::string& fileName) const
 {
-	std::lock_guard<std::mutex> lock(m_mutex);
-	std::ofstream outputFile(fileName + ".log", std::ios::app);
-	if (m_isFileLoggingEnable) {
-		if (outputFile.is_open()) {
-			outputFile << message << std::endl;
+	std::lock_guard<std::mutex> lock(m_queueMutex);
+	std::cout << "Queue Size: " << m_queue.size() << std::endl;
+	if (!m_queue.empty()) {
+		std::ofstream outputFile(fileName + ".log", std::ios::app);
+		if (m_enbaleLoggin) {
+			if (outputFile.is_open()) {
+				outputFile << m_queue.front() << std::endl;
+				m_queue.pop();
+			}
+			else {
+				std::cout << "\033[43;30m" << fileName << ".log cannot be opened \033[0m" << std::endl;
+			}
 		}
 		else {
-			std::cout << "\033[43;30m" << fileName << ".log cannot be opened \033[0m" << std::endl;
+			if (outputFile.is_open())
+				outputFile.close();
+			else
+				return;
 		}
-	}
-	else {
-		if (outputFile.is_open())
-			outputFile.close();
-		else
-			return;
 	}
 }
 
 //set the satus of logging into a file
 void Logger::setLoggingStatus(const bool& status)
 {
-	m_isFileLoggingEnable = status;
+	m_enbaleLoggin = status;
+
 }
 
+
+
 Logger::Logger()
-	:m_isFileLoggingEnable(false), m_LoggingFilename("Log")
+	:m_enbaleLoggin(false), m_LoggingFilename("Log")
 {
 }
 
 Logger::~Logger(){
 
-	m_isFileLoggingEnable = false;
+	m_enbaleLoggin = false;
 	delete m_instance;
 }
