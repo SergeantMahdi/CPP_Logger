@@ -20,19 +20,19 @@ class Logger {
 
 private:
 
-	static Logger* m_instance;
-	bool m_enbaleLoggin;
+	static Logger* m_instanceObject;
+	bool m_enbaleLogginInFile;
 	static std::mutex m_mutex;
 	static std::mutex m_queueMutex;
 	mutable std::queue<std::string> m_queue;
-	std::string m_LoggingFilename;
+	std::string m_loggingFilename;
 
 private:
 
 	std::string logLevelToString(const LogLevel& level) const;
 	std::string logLevelToStringForFile(const LogLevel& level) const;
 	std::string formatTime() const;
-	void fileLog(const std::string&) const;
+	void logInFile(const std::string&) const;
 
 protected:
 
@@ -45,13 +45,14 @@ public:
 	Logger& operator=(const Logger& other) = delete;
 	static Logger* initLogger();
 	void setLoggingStatus(const bool&);
-	void Log(const LogLevel&, const std::string&);
-	template<typename T> void Log(const LogLevel&, const T&);
+
+	void Log(const LogLevel&, const std::string&); //Strings
+	template<typename T> void Log(const LogLevel&, const T&); //Other Types
 	void setLoggingFilename(const std::string&);
 
 };
 
-template<typename T>
+template<typename T> //change the type of data to string
 inline void Logger::Log(const LogLevel& level, const T& message)
 {
 	std::stringstream streamStr;

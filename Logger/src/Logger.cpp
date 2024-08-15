@@ -4,16 +4,16 @@
 #include <fstream>
 
 
-Logger* Logger::m_instance = nullptr;
+Logger* Logger::m_instanceObject = nullptr;
 std::mutex Logger::m_mutex;
 std::mutex Logger::m_queueMutex;
 //Make an object instance
 Logger* Logger::initLogger()
 {
-	if (m_instance == nullptr) {
-		m_instance = new Logger;
+	if (m_instanceObject == nullptr) {
+		m_instanceObject = new Logger;
 	}
-	return m_instance;
+	return m_instanceObject;
 }
 
 //Log with file name
@@ -21,16 +21,17 @@ void Logger::Log(const LogLevel& level, const std::string& message)
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
 	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
-		if (m_enbaleLoggin) {
+
+		if (m_enbaleLogginInFile) {
 			std::string str = Logger::logLevelToStringForFile(level) + message + "  | " + formatTime();
 			m_queue.push(str);
-			fileLog(m_LoggingFilename);
+			logInFile(m_loggingFilename);
 	}
 }
 
 void Logger::setLoggingFilename(const std::string& name)
 {
-	m_LoggingFilename = name;
+	m_loggingFilename = name;
 }
 
 //Colorful log for console
@@ -74,18 +75,18 @@ std::string Logger::formatTime() const
 }
 
 //Write in the file
-void Logger::fileLog(const std::string& fileName) const
+void Logger::logInFile(const std::string& filename) const
 {
 	std::lock_guard<std::mutex> lock(m_queueMutex);
 	if (!m_queue.empty()) {
-		std::ofstream outputFile(fileName + ".log", std::ios::app);
-		if (m_enbaleLoggin) {
+		std::ofstream outputFile(filename + ".log", std::ios::app);
+		if (m_enbaleLogginInFile) {
 			if (outputFile.is_open()) {
 				outputFile << m_queue.front() << std::endl;
 				m_queue.pop();
 			}
 			else {
-				std::cout << "\033[43;30m" << fileName << ".log cannot be opened \033[0m" << std::endl;
+				std::cout << "\033[43;30m" << filename << ".log cannot be opened \033[0m" << std::endl;
 			}
 		}
 		else {
@@ -98,21 +99,21 @@ void Logger::fileLog(const std::string& fileName) const
 }
 
 //set the satus of logging into a file
-void Logger::setLoggingStatus(const bool& status)
+void Logger::setLoggingStatus(const bool& loggingStatus)
 {
-	m_enbaleLoggin = status;
+	m_enbaleLogginInFile = loggingStatus;
 
 }
 
 
 
 Logger::Logger()
-	:m_enbaleLoggin(false), m_LoggingFilename("Log")
+	:m_enbaleLogginInFile(false), m_loggingFilename("Log")
 {
 }
 
 Logger::~Logger(){
 
-	m_enbaleLoggin = false;
-	delete m_instance;
+	m_enbaleLogginInFile = false;
+	delete m_instanceObject;
 }
