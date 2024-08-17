@@ -5,8 +5,8 @@
 
 
 Logger* Logger::m_instanceObject = nullptr;
-std::mutex Logger::m_mutex;
 std::mutex Logger::m_queueMutex;
+
 //Make an object instance
 Logger* Logger::initLogger()
 {
@@ -19,14 +19,12 @@ Logger* Logger::initLogger()
 //Log with file name
 void Logger::Log(const LogLevel& level, const std::string& message)
 {
-	std::lock_guard<std::mutex> lock(m_mutex);
-	std::cout << Logger::logLevelToString(level) << message << "  | " << formatTime() << "\033[0m" << std::endl;
+	std::cout << Logger::logLevelToString(level) + message + "  | " + formatTime() + "\033[0m \n";
 
-		if (m_enbaleLogginInFile) {
+		if (m_logginInFileStatus) {
 			std::string str = Logger::logLevelToStringForFile(level) + message + "  | " + formatTime();
-			m_queue.push(str);
-			logInFile(m_loggingFilename);
-	}
+			startLogFile(m_loggingFilename, str);
+		}
 }
 
 void Logger::setLoggingFilename(const std::string& name)
@@ -75,12 +73,16 @@ std::string Logger::formatTime() const
 }
 
 //Write in the file
-void Logger::logInFile(const std::string& filename) const
+void Logger::startLogFile(const std::string& filename, const std::string& message) const
 {
+	
+	m_queue.push(message);
+
 	std::lock_guard<std::mutex> lock(m_queueMutex);
+
 	if (!m_queue.empty()) {
 		std::ofstream outputFile(filename + ".log", std::ios::app);
-		if (m_enbaleLogginInFile) {
+		if (m_logginInFileStatus) {
 			if (outputFile.is_open()) {
 				outputFile << m_queue.front() << std::endl;
 				m_queue.pop();
@@ -98,22 +100,22 @@ void Logger::logInFile(const std::string& filename) const
 	}
 }
 
-//set the satus of logging into a file
+//set the status of logging into a file
 void Logger::setLoggingStatus(const bool& loggingStatus)
 {
-	m_enbaleLogginInFile = loggingStatus;
+	m_logginInFileStatus = loggingStatus;
 
 }
 
 
 
 Logger::Logger()
-	:m_enbaleLogginInFile(false), m_loggingFilename("Log")
+	:m_logginInFileStatus(false), m_loggingFilename("Log")
 {
 }
 
 Logger::~Logger(){
 
-	m_enbaleLogginInFile = false;
+	m_logginInFileStatus = false;
 	delete m_instanceObject;
 }
