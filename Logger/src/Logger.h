@@ -6,6 +6,8 @@
 #include <string>
 #include <queue>
 #include <thread>
+#include <vector>
+
 
 enum class LogLevel {
 	DEBUG,
@@ -21,18 +23,22 @@ class Logger {
 private:
 
 	static Logger* m_instanceObject;
-	bool m_enbaleLogginInFile;
-	static std::mutex m_mutex;
-	static std::mutex m_queueMutex;
-	mutable std::queue<std::string> m_queue;
+	bool m_logginInFileStatus;
 	std::string m_loggingFilename;
+
+	static std::mutex m_consoleMutex;
+	static std::mutex m_queueMutex;
+
+	mutable std::queue<std::string> m_queue;
 
 private:
 
 	std::string logLevelToString(const LogLevel& level) const;
 	std::string logLevelToStringForFile(const LogLevel& level) const;
+
+	void startLogFile(const std::string&, const std::string&) const;
+
 	std::string formatTime() const;
-	void logInFile(const std::string&) const;
 
 protected:
 
@@ -43,7 +49,9 @@ public:
 
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger& other) = delete;
+
 	static Logger* initLogger();
+
 	void setLoggingStatus(const bool&);
 
 	void Log(const LogLevel&, const std::string&); //Strings
@@ -59,3 +67,5 @@ inline void Logger::Log(const LogLevel& level, const T& message)
 	streamStr << message;
 	Log(level, std::string(streamStr.str()));
 }
+
+
