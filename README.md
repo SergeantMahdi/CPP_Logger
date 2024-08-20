@@ -8,7 +8,7 @@ You can use this library whether for only console logging or save those logging 
 
 
 > [!NOTE]
-> NEW UPDATE: Logger is capable of logging every type of data
+> NEW UPDATE: The structure has been change, read the doc for the usage of loggingsystem
 
 > [!NOTE]
 > NOTE: Thread Safety is added
@@ -21,7 +21,7 @@ You can use this library whether for only console logging or save those logging 
 #include "Logger.h"
 int main(){
 
-Logger* log = Logger::initLogger();
+SyncFileLo* log = Logger::initLogger();
 
 }
 ```
@@ -33,9 +33,9 @@ Logger* log = Logger::initLogger();
 
 int main(){
 
-Logger* log = Logger::initLogger();
+SyncLogging logger;
 
-log->Log(LogLevel::ERROR, "This is an error log") 
+logger.Log(LogLevel::ERROR, "This is an error log") 
 }
 ```
 <h3>To start and stop logging into a file: </h3>
@@ -45,13 +45,13 @@ log->Log(LogLevel::ERROR, "This is an error log")
 int main() {
 
 //make an instance
-	Logger* log = Logger::initLogger();
+	SyncLogging logger;
 
-	log->setLoggingStatus(true); //start logging into the file
+	logger.setSaveLogFileStatus(true); //start logging into the file
 
-	log->Log(LogLevel::ERROR, "This is an error log"); //default filename is Log.log
+	logger.Log(LogLevel::ERROR, "This is an error log"); //default filename is Log.log
 
-	log->setLoggingStatus(false); //Stop logging into the file
+	logger.setSaveLogFileStatus(false); //Stop logging into the file
 }
 ```
 <h3>To log in a file with a custom file name:</h3>
@@ -60,15 +60,12 @@ int main() {
 int main() {
 
 //make an instance
-	Logger* log = Logger::initLogger();
+	SyncLogging logger;
 
-	log->setLoggingStatus(true); //start logging into the file
-
-	log->setLoggingFilename("Logging"); // add your custom name for log file
-
-	log->Log(LogLevel::ERROR, "This is an error log"); //start logging into Logging.log
-
-	log->setLoggingStatus(false); //Stop logging into the file
+	logger.setFileName("Logging"); // add your custom name for log file
+	logger.setSaveLogFileStatus(true); //start logging into the file
+	logger.Log(LogLevel::ERROR, "This is an error log"); //default filename is Log.log
+	logger.setSaveLogFileStatus(false); //Stop logging into the file
 }
 ```
 
