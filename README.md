@@ -21,7 +21,7 @@ You can use this library whether for only console logging or save those logging 
 #include "SyncLogging.h"
 int main(){
 
-SyncFileLo* log = Logger::initLogger();
+SyncLogging logger;
 
 }
 ```
