@@ -8,7 +8,7 @@ You can use this library whether for only console logging or save those logging 
 
 
 > [!NOTE]
-> NEW UPDATE: The structure has been change, read the doc for the usage of loggingsystem
+> NEW UPDATE: The structure has been changed, read the doc for the usage of loggingsystem
 
 > [!NOTE]
 > NOTE: Thread Safety is added
@@ -66,7 +66,7 @@ int main() {
 
 	logger.setSaveLogFileStatus(true); //start logging into the file
 
-	logger.Log(LogLevel::ERROR, "This is an error log"); //default filename is Log.log
+	logger.Log(LogLevel::ERROR, "This is an error log"); 
 	
 	logger.setSaveLogFileStatus(false); //Stop logging into the file
 }
