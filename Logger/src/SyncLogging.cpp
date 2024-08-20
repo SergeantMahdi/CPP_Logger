@@ -51,7 +51,7 @@ void SyncLogging::setFileName(std::string_view name)
 	m_fileName = name;
 }
 SyncLogging::SyncLogging()
-	: m_fileName("SyncLog.log"), m_saveFileStatus(false)
+	: m_fileName("Log"), m_saveFileStatus(false)
 {
 }
 
