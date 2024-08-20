@@ -1,9 +1,9 @@
 #include "SyncLogging.h"
 
-std::mutex SyncLogging::m_queueMutex;
-std::mutex SyncLogging::m_consoleLoggingMutex;
+std::mutex SyncFileLogging::m_queueMutex;
+std::mutex SyncFileLogging::m_consoleLoggingMutex;
 
-void SyncLogging::writeDataInFile() const
+void SyncFileLogging::writeDataInFile() const
 {
 	while (!m_messageList.empty()) {
 		if (m_fileOutput.is_open()) {
@@ -18,7 +18,7 @@ void SyncLogging::writeDataInFile() const
 }
 
 
-void SyncLogging::Log(const LogLevel& level, const std::string& message) const
+void SyncFileLogging::Log(const LogLevel& level, const std::string& message) const
 {
 
 	
@@ -35,7 +35,7 @@ void SyncLogging::Log(const LogLevel& level, const std::string& message) const
 	}
 }
 
-void SyncLogging::setSaveLogFileStatus(const bool& status)
+void SyncFileLogging::setSaveLogFileStatus(const bool& status)
 {
 	m_saveFileStatus = status;
 	if (m_saveFileStatus) {
@@ -46,16 +46,16 @@ void SyncLogging::setSaveLogFileStatus(const bool& status)
 	}
 }
 
-void SyncLogging::setFileName(std::string_view name)
+void SyncFileLogging::setFileName(std::string_view name)
 {
 	m_fileName = name;
 }
-SyncLogging::SyncLogging()
+SyncFileLogging::SyncFileLogging()
 	: m_fileName("SyncLog.log"), m_saveFileStatus(false)
 {
 }
 
-SyncLogging::~SyncLogging()
+SyncFileLogging::~SyncFileLogging()
 {
 	if(m_fileOutput.is_open())
 	m_fileOutput.close();

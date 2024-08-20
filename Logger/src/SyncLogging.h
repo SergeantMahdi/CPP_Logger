@@ -3,7 +3,7 @@
 #include "LoggingSystem.h"
 
 
-class SyncLogging : public LoggingSystem {
+class SyncFileLogging : public LoggingSystem {
 
 private:
 
@@ -27,13 +27,13 @@ public:
 	void setSaveLogFileStatus(const bool&) override;
 	void setFileName(std::string_view) override;
 
-	SyncLogging();
-	~SyncLogging();
+	SyncFileLogging();
+	~SyncFileLogging();
 
 };
 
 template<typename T>
-inline void SyncLogging::Log(const LogLevel& level, const T& message) const
+inline void SyncFileLogging::Log(const LogLevel& level, const T& message) const
 {
 	std::stringstream stream;
 	stream << message;
