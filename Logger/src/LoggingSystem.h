@@ -32,7 +32,7 @@ public:
 	virtual std::string_view LogLevelToColorfulString(const LogLevel&) const;
 	virtual std::string LogLevelToNormalString(const LogLevel&) const;
 
-	virtual void setSaveLogInFile(const bool&) = 0;
+	virtual void setSaveLogFileStatus(const bool&) = 0;
 	virtual void setFileName(std::string_view) = 0;
 
 	LoggingSystem();

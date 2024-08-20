@@ -21,10 +21,22 @@ private:
 public:
 
 	void Log(const LogLevel&, const std::string&) const override;
-	void setSaveLogInFile(const bool&) override;
+	template<typename T>
+	void Log(const LogLevel&, const T&) const;
+
+	void setSaveLogFileStatus(const bool&) override;
 	void setFileName(std::string_view) override;
 
 	SyncLogging();
 	~SyncLogging();
 
 };
+
+template<typename T>
+inline void SyncLogging::Log(const LogLevel& level, const T& message) const
+{
+	std::stringstream stream;
+	stream << message;
+	Log(level, stream.str());
+
+}

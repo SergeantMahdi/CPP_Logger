@@ -35,11 +35,14 @@ void SyncLogging::Log(const LogLevel& level, const std::string& message) const
 	}
 }
 
-void SyncLogging::setSaveLogInFile(const bool& status)
+void SyncLogging::setSaveLogFileStatus(const bool& status)
 {
 	m_saveFileStatus = status;
 	if (m_saveFileStatus) {
 		m_fileOutput.open(m_fileName + ".log", std::ios::app);
+	}
+	else {
+		m_fileOutput.close();
 	}
 }
 
