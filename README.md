@@ -63,8 +63,11 @@ int main() {
 	SyncLogging logger;
 
 	logger.setFileName("Logging"); // add your custom name for log file
+
 	logger.setSaveLogFileStatus(true); //start logging into the file
+
 	logger.Log(LogLevel::ERROR, "This is an error log"); //default filename is Log.log
+	
 	logger.setSaveLogFileStatus(false); //Stop logging into the file
 }
 ```
