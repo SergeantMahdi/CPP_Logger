@@ -18,7 +18,7 @@ You can use this library whether for only console logging or save those logging 
  <h3> make an instance: </h3>
    
 ```CPP
-#include "Logger.h"
+#include "SyncLogging.h"
 int main(){
 
 SyncFileLo* log = Logger::initLogger();
@@ -29,7 +29,7 @@ SyncFileLo* log = Logger::initLogger();
 <h3>To log into console only: </h3> 
 
 ```CPP
-#include "Logger.h"
+#include "SyncLogging.h"
 
 int main(){
 
