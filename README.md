@@ -2,7 +2,7 @@
 
 ![Header](Media/Header.png)
 
-This is a simple logging library that is made to colorize errors and info based on their levels. It'll allows you to store the information with their levels and time occurance inside a file with a custome name.
+This is a simple logging library that is made to colorize errors and info based on their levels. It'll allow you to store the information with their levels and time occurance inside a file with a custome name.
 
 
 
