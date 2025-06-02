@@ -46,11 +46,11 @@ int main() {
 //make an instance
 	SyncLogging logger;
 
-	logger.setSaveLogFileStatus(true); //start logging into the file
+	logger.enableFileLogging(true); //start logging into the file
 
 	logger.Log(LogLevel::ERROR, "This is an error log"); //default filename is Log.log
 
-	logger.setSaveLogFileStatus(false); //Stop logging into the file
+	logger.enableFileLogging(false); //Stop logging into the file
 }
 ```
 <h3>Set A Custom File Name:</h3>
@@ -63,11 +63,11 @@ int main() {
 
 	logger.setFileName("Logging"); // add your custom name for log file
 
-	logger.setSaveLogFileStatus(true); //start logging into the file
+	logger.enableFileLogging(true); //start logging into the file
 
 	logger.Log(LogLevel::ERROR, "This is an error log"); 
 	
-	logger.setSaveLogFileStatus(false); //Stop logging into the file
+	logger.enableFileLogging(false); //Stop logging into the file
 }
 ```
 
