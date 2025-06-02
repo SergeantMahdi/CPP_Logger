@@ -2,20 +2,19 @@
 
 ![Header](Media/Header.png)
 
-This is a simple logger that I made to simplify and also store the debugging information that might be critical in the future.
-You can use this library whether for only console logging or save those logging into custom file
+This is a simple logging library that is made to colorize errors and info based on their levels. It'll allows you to store the information with their levels and time occurance inside a file with a custome name.
 
 
 
 > [!NOTE]
-> NEW UPDATE: The structure has been changed, read the doc for the usage of loggingsystem
+> NEW UPDATE: The structure has been changed, read the doc for further information.
 
 > [!NOTE]
 > NOTE: Thread Safety is added
 
 <h2>Guide</h2>
 
- <h3> make an instance: </h3>
+ <h3>Making An Instance: </h3>
    
 ```CPP
 #include "SyncLogging.h"
@@ -26,7 +25,7 @@ SyncLogging logger;
 }
 ```
 
-<h3>To log into console only: </h3> 
+<h3>Printing Information Only In The Console: </h3> 
 
 ```CPP
 #include "SyncLogging.h"
@@ -38,7 +37,7 @@ SyncLogging logger;
 logger.Log(LogLevel::ERROR, "This is an error log") 
 }
 ```
-<h3>To start and stop logging into a file: </h3>
+<h3>Start / Stop Storing Information In A File: </h3>
 
 ```CPP
 
@@ -54,7 +53,7 @@ int main() {
 	logger.setSaveLogFileStatus(false); //Stop logging into the file
 }
 ```
-<h3>To log in a file with a custom file name:</h3>
+<h3>Set A Custom File Name:</h3>
 
 ```CPP
 int main() {
@@ -73,7 +72,7 @@ int main() {
 ```
 
 
-<h3>All the LogLevels : </h3>
+<h3>Information Levels Based On Their Importance : </h3>
 
 ```CPP
 enum class LogLevel {
@@ -88,11 +87,11 @@ enum class LogLevel {
 
 <h2 align="center">Screenshots</h2>
 
- <h3> Loggin into the console </h3>
+ <h3> Colorized Information</h3>
  
 ![loggingFile](Media/Console-Logging.png)
 
- <h3> Loggin into a file </h3>
+ <h3>File Structure Of Stored Data</h3>
  
 ![loggingFile](Media/Logging-file.png)
 
