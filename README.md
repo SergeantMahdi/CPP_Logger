@@ -7,7 +7,7 @@ This is a simple logging library that is made to colorize errors and info based 
 
 
 > [!NOTE]
-> NEW UPDATE: The structure has been changed, read the doc for further information.
+> NEW UPDATE: The setSaveLogFileStatus function name changed to enableFileLogging
 
 > [!NOTE]
 > NOTE: Thread Safety is added
