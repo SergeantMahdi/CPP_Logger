@@ -25,16 +25,16 @@ enum class LogLevel {
 
 
 class LoggingSystem {
-public:
+protected:
 
 	virtual void Log(const LogLevel&, const std::string&) const;
 	virtual std::string getTime() const;
-	virtual std::string_view LogLevelToColorfulString(const LogLevel&) const;
-	virtual std::string LogLevelToNormalString(const LogLevel&) const;
+	virtual const char* LogLevelToColorfulString(const LogLevel&) const;
+	virtual const char* LogLevelToNormalString(const LogLevel&) const;
 
-	virtual void setSaveLogFileStatus(const bool&) = 0;
-	virtual void setFileName(std::string_view) = 0;
-
+	virtual void enableFileLogging(const bool&) = 0;
+	virtual void setFileName(const std::string&) = 0;
+public:
 	LoggingSystem();
 	virtual ~LoggingSystem();
 };

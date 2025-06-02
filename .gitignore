@@ -49,7 +49,7 @@ _compile_commands.json.tmp
 
 # IDE-generated
 .vs/
-
+Debug/
 # Miscellaneous
 *.bak
 *.tmp

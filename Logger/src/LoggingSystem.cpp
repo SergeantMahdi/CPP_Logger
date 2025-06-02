@@ -1,5 +1,6 @@
 #include "LoggingSystem.h"
 
+#include <format>
 
 
 void LoggingSystem::Log(const LogLevel& level, const std::string& message) const
@@ -10,19 +11,26 @@ void LoggingSystem::Log(const LogLevel& level, const std::string& message) const
 
 std::string LoggingSystem::getTime() const
 {
-    std::stringstream stream;
-    auto currentTime = std::chrono::system_clock::now();
-    auto stampTime = std::chrono::system_clock::to_time_t(currentTime);
-    tm newTime;
-    localtime_s(&newTime, &stampTime);
+       auto currentTime = std::chrono::system_clock::now();
+       auto fullDateTime = std::chrono::system_clock::to_time_t(currentTime);
 
-    stream << std::put_time(&newTime, " %Y/%m/%d %H:%M:%S");
-
-    return stream.str();
+       char buffer[26];
+       if (ctime_s(buffer, sizeof(buffer), &fullDateTime) == 0) {
+            
+            std::string timeStr(buffer);
+            if (!timeStr.empty() && timeStr.back() == '\n') {
+                timeStr.pop_back();
+            }
+          return timeStr;
+       } 
+       else {
+            return "Unknown Time";
+       }
+    
 }
 
 
-std::string_view LoggingSystem::LogLevelToColorfulString(const LogLevel& level) const
+const char* LoggingSystem::LogLevelToColorfulString(const LogLevel& level) const
 {
     switch (level) {
     case LogLevel::DEBUG: return "\033[36m[DEBUG]: ";
@@ -35,7 +43,7 @@ std::string_view LoggingSystem::LogLevelToColorfulString(const LogLevel& level) 
     }
 }
 
-std::string LoggingSystem::LogLevelToNormalString(const LogLevel& level) const
+const char* LoggingSystem::LogLevelToNormalString(const LogLevel& level) const
 {
     switch (level) {
     case LogLevel::DEBUG: return "[DEBUG]: ";

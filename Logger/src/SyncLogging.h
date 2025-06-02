@@ -2,8 +2,7 @@
 
 #include "LoggingSystem.h"
 
-
-class SyncLogging : public LoggingSystem {
+class SyncLogging : protected LoggingSystem {
 
 private:
 
@@ -16,7 +15,7 @@ private:
 
 private:
 
-	void writeDataInFile() const;
+	void flushLogQueueToFile() const;
 
 public:
 
@@ -24,8 +23,11 @@ public:
 	template<typename T>
 	void Log(const LogLevel&, const T&) const;
 
-	void setSaveLogFileStatus(const bool&) override;
-	void setFileName(std::string_view) override;
+	void enableFileLogging(const bool&) override;
+	void setFileName(const std::string&) override;
+
+
+
 
 	SyncLogging();
 	~SyncLogging();
@@ -33,7 +35,7 @@ public:
 };
 
 template<typename T>
-inline void SyncLogging::Log(const LogLevel& level, const T& message) const
+ void SyncLogging::Log(const LogLevel& level, const T& message) const
 {
 	std::stringstream stream;
 	stream << message;
