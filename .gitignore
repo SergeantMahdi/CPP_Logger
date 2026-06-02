@@ -21,7 +21,7 @@ cmake-build-*/
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
-*.sln
+*.slnx
 *.vcxproj.*
 *.layout
 *.depend
