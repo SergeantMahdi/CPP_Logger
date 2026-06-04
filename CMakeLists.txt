@@ -30,11 +30,18 @@ add_library(${Logger_Lib} STATIC)
 
 set(Logger_Executables 
 # ALL *.CPP Files Goes here
+source/textFormat.cpp
+source/jsonFormat.cpp
+source/helper.cpp
+
 )
 
 set(Logger_Headers
 # ALL *.H Files Goes here
-
+source/formatInterface.h
+source/textFormat.h
+source/jsonFormat.h
+source/helper.h
 )
 
 target_sources(
