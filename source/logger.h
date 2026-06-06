@@ -39,37 +39,37 @@ namespace sgt {
 				++m_s_criticalCount;
 				break;
 			}
-			std::cout << getFormattedMessage(format, std::forward<Args>(args)...) << "\n";
+			std::cout << getFormattedMessage(format, level, std::forward<Args>(args)...) << "\n";
 		}
 
 		template<typename... Args>
 		void error(const char* format, Args&& ...args) {
 			std::lock_guard<std::mutex> lock(m_mutex);
 			++m_s_errorCount;
-			std::cout << colors::ERROR << getFormattedMessage(format, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
+			std::cout << colors::ERROR << getFormattedMessage(format, sgt::LogLevel::ERROR, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
 		}
 
 		template<typename... Args>
 		void warning(const char* format, Args&& ...args) {
 			std::lock_guard<std::mutex> lock(m_mutex);
 			++m_s_warningCount;
-			std::cout << colors::WARNING << getFormattedMessage(format, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
+			std::cout << colors::WARNING << getFormattedMessage(format, sgt::LogLevel::WARNING, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
 		}
 		template<typename... Args>
 		void critical(const char* format, Args&& ...args) {
 			std::lock_guard<std::mutex> lock(m_mutex);
 			++m_s_criticalCount;
-			std::cout << colors::CRITICAL << getFormattedMessage(format, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
+			std::cout << colors::CRITICAL << getFormattedMessage(format, sgt::LogLevel::CRITICAL, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
 		}
 		template<typename... Args>
 		void info(const char* format, Args&& ...args) {
 			std::lock_guard<std::mutex> lock(m_mutex);
-			std::cout << colors::INFO << getFormattedMessage(format, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
+			std::cout << colors::INFO << getFormattedMessage(format, sgt::LogLevel::INFO, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
 		}
 		template<typename... Args>
 		void debug(const char* format, Args&& ...args) {
 			std::lock_guard<std::mutex> lock(m_mutex);
-			std::cout << colors::DEBUG << getFormattedMessage(format, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
+			std::cout << colors::DEBUG << getFormattedMessage(format, sgt::LogLevel::DEBUG, std::forward<Args>(args)...) << colors::DEFAULT << "\n";
 		}
 
 		unsigned int getErrorCount() const {
@@ -89,9 +89,9 @@ namespace sgt {
 
 	private:
 		template<typename... Args>
-		inline std::string getFormattedMessage(const char* format, Args&& ...args) {
+		inline std::string getFormattedMessage(const char* format, const sgt::LogLevel& level, Args&& ...args) {
 			std::string message = std::vformat(format, std::make_format_args(args...));
-			std::string formattedMessage = m_unique_format->format(message, sgt::LogLevel::DEBUG);
+			std::string formattedMessage = m_unique_format->format(message, level);
 			return formattedMessage;
 		}
 
