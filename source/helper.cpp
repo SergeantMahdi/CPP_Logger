@@ -11,7 +11,7 @@
 }
 
 
-std::string sgt::levelToString(const sgt::LogLevel& level)
+const char* sgt::levelToString(const sgt::LogLevel& level)
 {
 	switch (level) {
 	case sgt::LogLevel::FATAL:

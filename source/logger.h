@@ -90,9 +90,7 @@ namespace sgt {
 	private:
 		template<typename... Args>
 		inline std::string getFormattedMessage(const char* format, const sgt::LogLevel& level, Args&& ...args) {
-			std::string message = std::vformat(format, std::make_format_args(args...));
-			std::string formattedMessage = m_unique_format->format(message, level);
-			return formattedMessage;
+			return  m_unique_format->format(std::vformat(format, std::make_format_args(args...)), level);
 		}
 
 	private:
