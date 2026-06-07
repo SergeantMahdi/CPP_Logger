@@ -10,6 +10,6 @@ namespace sgt {
 		DEBUG,
 	};
 
-	 std::string levelToString(const LogLevel& level);
+	const char* levelToString(const LogLevel& level);
 	 std::string getTimeStamp();
 }
