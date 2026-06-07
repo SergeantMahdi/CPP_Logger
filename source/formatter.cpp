@@ -8,7 +8,7 @@ std::string sgt::JsonFormat::format(const std::string& text, const sgt::LogLevel
 	const char* levelString = sgt::levelToString(level);
 	std::string formattedText;
 	// 47 is the number of characters that is used for formatting beside our variables
-	formattedText.reserve(timestamp.size() + sizeof(levelString) + text.size() + 47 );
+	formattedText.reserve(timestamp.size() + std::strlen(levelString) + text.size() + 47 );
 	formattedText.append("{\n\"timestamp\": \"");
 	formattedText.append(timestamp);
 	formattedText.append("\",\n\"level\": \"");
@@ -25,7 +25,7 @@ std::string sgt::TextFormat::format(const std::string& text, const sgt::LogLevel
 	const char* levelString = sgt::levelToString(level);
 	std::string formattedText;
 	// 6 is the number of characters that is used for formatting beside our variables
-	formattedText.reserve(timestamp.size() + sizeof(levelString) + text.size() + 6);
+	formattedText.reserve(timestamp.size() + std::strlen(levelString) + text.size() + 6);
 	formattedText.append("[");
 	formattedText.append(timestamp);
 	formattedText.append("] [");
