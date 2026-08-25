@@ -3,6 +3,7 @@
 #include "helper.h"
 #include <mutex>
 #include <format>
+#include <memory>
 
 namespace colors {
 	using color_type = const char*;

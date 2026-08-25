@@ -1,6 +1,7 @@
 #include <formatter.h>
 #include <chrono>
 #include "helper.h"
+#include <cstring>
 
 std::string sgt::JsonFormat::format(const std::string& text, const sgt::LogLevel& level)
 {

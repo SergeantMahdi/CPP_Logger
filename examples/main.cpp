@@ -1,7 +1,7 @@
 #include <iostream>
 #include "formatter.h"
 #include "logger.h"
-
+#include <memory>
 int main() {
 	sgt::Logger textLogger(std::make_unique<sgt::TextFormat>());
 	textLogger.error("This library is made by {} contributer: {}", 1, "Matthew");
